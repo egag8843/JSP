@@ -33,10 +33,10 @@ public class MemberDao {
 			psmt.setString(8, mv.getAddr1());
 			psmt.setString(9, mv.getAddr2());
 			psmt.setString(10, mv.getRegip());
-			// 4ï¿½Ü°ï¿½
+			// 4´Ü°è
 	        psmt.executeUpdate();
-			// 5ï¿½Ü°ï¿½
-			// 6ï¿½Ü°ï¿½
+			// 5´Ü°è
+			// 6´Ü°è
 			conn.close();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -68,19 +68,19 @@ public class MemberDao {
 		int count = -1;
 		
 		try{
-			//1,2ï¿½Ü°ï¿½
+			//1,2´Ü°è
 			Connection conn = DBConfig.getInstance().getConnection();
-			// 3ï¿½Ü°ï¿½
+			// 3´Ü°è
 			PreparedStatement psmt = conn.prepareStatement(Sql.SELECT_COUNT_UID);
 			psmt.setString(1, uid);
-			// 4ï¿½Ü°ï¿½
+			// 4´Ü°è
 			ResultSet rs = psmt.executeQuery();
-			// 5ï¿½Ü°ï¿½
+			// 5´Ü°è
 			if(rs.next()){
 				count = rs.getInt(1);
 			}
 			
-			// 6ï¿½Ü°ï¿½
+			// 6´Ü°è
 			conn.close();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -93,18 +93,18 @@ public class MemberDao {
 		MemberVo mv = null;
 		
 		try{
-			//1,2ï¿½Ü°ï¿½
+			//1,2´Ü°è
 			Connection conn = DBConfig.getInstance().getConnection();
 			
-			// 3ï¿½Ü°ï¿½
+			// 3´Ü°è
 			PreparedStatement psmt = conn.prepareStatement(Sql.SELECT_MEMBER);
 			psmt.setString(1, uid);
 			psmt.setString(2, pass);
-			// 4ï¿½Ü°ï¿½
+			// 4´Ü°è
 			ResultSet rs = psmt.executeQuery();
-			// 5ï¿½Ü°ï¿½
+			// 5´Ü°è
 			if(rs.next()){
-				// È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+				// È¸¿øÀÏ °æ¿ì
 				mv = new MemberVo();
 				mv.setUid(rs.getString(1));
 				mv.setPass(rs.getString(2));
@@ -120,7 +120,7 @@ public class MemberDao {
 				mv.setRdate(rs.getString(12));
 			}
 			
-			// 6ï¿½Ü°ï¿½
+			// 6´Ü°è
 			conn.close();
 			
 		}catch(Exception e){

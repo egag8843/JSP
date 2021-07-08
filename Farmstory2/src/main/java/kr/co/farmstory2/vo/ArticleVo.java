@@ -14,7 +14,7 @@ public class ArticleVo {
 	private String regip;
 	private String rdate;
 	
-	// ï¿½ß°ï¿½ï¿½Êµï¿½
+	// Ãß°¡ÇÊµå
 	private String nick;
 	private FileVo fb;
 	

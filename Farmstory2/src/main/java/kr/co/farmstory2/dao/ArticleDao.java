@@ -3,17 +3,16 @@ package kr.co.farmstory2.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import kr.co.farmstory2.db.DBConfig;
 import kr.co.farmstory2.db.Sql;
 import kr.co.farmstory2.vo.ArticleVo;
 import kr.co.farmstory2.vo.FileVo;
 
-// DAO(Database Access Object) 
+// DAO(Database Access Object) Ŭ����
 public class ArticleDao {
 
 	private static ArticleDao instance = new ArticleDao();
@@ -21,53 +20,6 @@ public class ArticleDao {
 	
 	public static ArticleDao getInstance() {
 		return instance;
-	}
-	
-	public int[] getPageGroup(int currentPage, int lastPageNum) {
-		
-		int groupCurrent = (int) Math.ceil(currentPage / 10.0);
-		int groupStart = (groupCurrent - 1) * 10 + 1;
-		int groupEnd = groupCurrent * 10;
-		
-		if(groupEnd > lastPageNum) {
-			groupEnd = lastPageNum;
-		}
-		
-		int[] groups = {groupStart, groupEnd}; 
-		
-		return groups;		
-	}
-	
-	public int getPageStartNum(int total, int start) {
-		return total - start;
-	}
-	
-	public int getLimitStart(int currentPage) {
-		return (currentPage - 1) * 10;
-	}
-	
-	public int getCurrentPage(String pg) {
-		
-		int currentPage = 1;
-		
-		if(pg != null) {
-			currentPage = Integer.parseInt(pg);
-		}
-		
-		return currentPage;
-	}
-	
-	public int getLastPageNum(int total) {
-		
-		int lastPageNum = 0;
-		
-		if(total % 10 == 0){
-			lastPageNum = total / 10;
-		}else{
-			lastPageNum = total / 10 + 1;
-		}
-		
-		return lastPageNum;
 	}
 	
 	public int selectCountArticle(String cate) {
@@ -96,7 +48,28 @@ public class ArticleDao {
 		return total;
 	}
 	
-	public void insertArticle() {}
+	public int insertArticle(ArticleVo vo) {
+		
+		try{
+			Connection conn = DBConfig.getInstance().getConnection();
+			PreparedStatement psmt = conn.prepareStatement(Sql.INSERT_ARTICLE);
+			psmt.setString(1, vo.getCate());
+			psmt.setString(2, vo.getTitle());
+			psmt.setString(3, vo.getContent());
+			psmt.setInt(4, vo.getFile());
+			psmt.setString(5, vo.getUid());
+			psmt.setString(6, vo.getRegip());
+			
+			psmt.executeUpdate();
+			
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return selectMaxSeq();
+	}
+	
 	public void insertComment(ArticleVo comment) {
 		try{
 			// 1,2 �ܰ�
@@ -117,7 +90,27 @@ public class ArticleDao {
 		}
 	}
 	
-	public List<ArticleVo> selectLatests() {
+	public void insertFile(int seq, String fname, String newName) {
+		try {
+			// 1, 2�ܰ�
+			Connection conn = DBConfig.getInstance().getConnection();
+			// 3�ܰ�
+			PreparedStatement psmt = conn.prepareStatement(Sql.INSERT_FILE);
+			psmt.setInt(1, seq);
+			psmt.setString(2, fname);
+			psmt.setString(3, newName);
+			
+			// 4�ܰ�
+			psmt.executeUpdate();
+			// 5�ܰ�
+			// 6�ܰ�
+			conn.close();
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+public List<ArticleVo> selectLatests() {
 		
 		List<ArticleVo> latests = new ArrayList<>();
 				
@@ -141,7 +134,28 @@ public class ArticleDao {
 		}
 		return latests;
 	}
-	
+	public int selectMaxSeq() {
+		
+		int seq = 0;
+		
+		try {
+			Connection conn = DBConfig.getInstance().getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(Sql.SELECT_MAX_SEQ);
+			
+			if(rs.next()) {
+				seq = rs.getInt(1);
+			}
+			
+			conn.close();
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return seq;
+	}
+
 	public ArticleVo selectArticle(String seq) {
 		
 		ArticleVo article = new ArticleVo();

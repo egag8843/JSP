@@ -24,8 +24,8 @@
         </tr>
     </table>
     <div>
-        <a href="./login.html">취소</a>
-        <a href="./register.html">다음</a>
+        <a href="/Farmstory2/user/login.do">취소</a>
+        <a href="/Farmstory2/user/register.do">다음</a>
     </div>
 </section>
 <%@ include file="../_footer.jsp" %>

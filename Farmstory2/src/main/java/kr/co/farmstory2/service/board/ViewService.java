@@ -14,8 +14,6 @@ public class ViewService implements CommonService {
 		String cate  = req.getParameter("cate");
 		
 		
-		
-		
 		req.setAttribute("group", group);
 		req.setAttribute("cate", cate);
 		

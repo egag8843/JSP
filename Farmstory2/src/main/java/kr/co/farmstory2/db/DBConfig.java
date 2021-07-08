@@ -12,15 +12,14 @@ public class DBConfig {
 		return instance;
 	}
 		
-	//DB Á¤º¸
-	private final String HOST = "jdbc:mysql://54.180.160.240:3306/chhak2021";
-	private final String USER = "chhak2021";
+	private final String HOST = "jdbc:mysql://54.180.160.240:3306/egag8843";
+	private final String USER = "egag8843";
 	private final String PASS = "1234";
 	
 	public Connection getConnection() throws Exception {
-		// 1´Ü°è
+		// 1ï¿½Ü°ï¿½
 		Class.forName("com.mysql.jdbc.Driver");
-		// 2´Ü°è
+		// 2ï¿½Ü°ï¿½
 		Connection conn = DriverManager.getConnection(HOST, USER, PASS);
 		
 		return conn;
